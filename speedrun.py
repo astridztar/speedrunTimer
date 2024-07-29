@@ -157,6 +157,10 @@ root = Tk()
 # text.pack()
 root.title("astrid ztar's speedrun timer")
 root.geometry("500x180")
+
+img = Image("photo", file="appicon.png")
+root.tk.call('wm','iconphoto',root._w,img)
+
 mainframe = ttk.Frame(root, padding="3 3 12 12")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
