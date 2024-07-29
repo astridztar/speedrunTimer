@@ -13,6 +13,8 @@ timerRunning = 0
 timerStart = 0
 timerEnd = 0
 timeDisplay = 'test'
+PB = ''
+PBTime = 0
 
 ###############
 # functions
@@ -62,13 +64,16 @@ def toggleTimer():
 #
 # stops timer and resets timerStart
 def stopTimer():
-	global timerRunning, timerStart, timerEnd, timeDisplay
+	global timerRunning, timerStart, timerEnd, timeDisplay, PB, PBTime
 	timerRunning = 0
 	if(timerStart == 0):
 		return
 	timerEnd = getTimeInMilliseconds() - timerStart
 	timerStart = 0
 	timeDisplay = convertColons(str(timerEnd))
+	if PBTime == 0 or PBTime > timerEnd:
+		PBTime = timerEnd
+		PB = timeDisplay
 	return
 
 # updateTimerLabel
@@ -83,6 +88,7 @@ def updateTimerLabel():
 		timeDisplay = str(timerEnd)
 		timeDisplay = convertColons(timeDisplay)
 	timeLabel.set(timeDisplay)
+	PBLabel.set("PB: " + PB)
 	root.after(10, updateTimerLabel)
 	#if keyboard.is_pressed('z'):
 	#if keyboard.is_pressed('x'):
@@ -136,8 +142,8 @@ def resetTimer():
 root = Tk()
 #text = root.Text(width = 32, height = 4, font=("Helvetica", 32))
 #text.pack()
-root.title("Speedrun Timer")
-root.geometry('400x120')
+root.title("astrid ztar's speedrun timer")
+root.geometry('500x180')
 mainframe = ttk.Frame(root, padding="3 3 12 12")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
@@ -145,16 +151,19 @@ root.rowconfigure(0, weight=1)
 
 # TO-DO: style
 style = ttk.Style(root)
-style.configure('TLabel', font=('Helvetica', 32))
-style.configure('TButton', font=('Helvetica', 12))
+style.configure('TLabel', font=('Terminal', 24))
+style.configure('TButton', font=('Terminal', 12))
 
 # labels & buttons
 timeLabel = StringVar()
+PBLabel = StringVar()
 buttonText = StringVar()
 button2Text = StringVar()
 buttonText.set("Start Timer")
 button2Text.set("Stop Timer")
-ttk.Label(mainframe, textvariable=timeLabel).grid(column=2, row=1, sticky=(W, E))
+ttk.Label(mainframe, textvariable=timeLabel).grid(column=2, row=1, sticky=(W))
+#style.configure('TLabel',font=('Terminal', 12))
+ttk.Label(mainframe, textvariable=PBLabel).grid(column=2, row=4, sticky=(W))
 ttk.Button(mainframe, textvariable=buttonText, command=toggleTimer).grid(column=2, row=2, sticky=W)
 ttk.Button(mainframe, textvariable=button2Text, command=stopTimer).grid(column=2, row=3, sticky=W)
 
