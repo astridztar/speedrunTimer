@@ -1,7 +1,7 @@
 # speedrunTimer
 a simple gui speedrun timer for my debian machine
 
-
+![speedrunTimer](https://insect.christmas/images/github/speedrunTimer.png)
 
 # **features:**
 - button to start/stop timer
