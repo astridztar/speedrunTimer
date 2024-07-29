@@ -64,7 +64,7 @@ def toggleTimer():
 def stopTimer():
 	global timerRunning, timerStart, timerEnd, timeDisplay
 	timerRunning = 0
-	if(timerStart == 0 and timerEnd == 0):
+	if(timerStart == 0):
 		return
 	timerEnd = getTimeInMilliseconds() - timerStart
 	timerStart = 0
