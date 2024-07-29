@@ -6,6 +6,7 @@ from pynput import keyboard
 from threading import Thread
 import pygame, sys
 from pygame.locals import *
+from tkinter.font import Font
 
 # make global variables
 timerRunning = 0
@@ -133,12 +134,19 @@ def resetTimer():
 
 # run display & mainloop
 root = Tk()
-root.title("Speedrun Timer v0.01")
-root.geometry('200x100')
+#text = root.Text(width = 32, height = 4, font=("Helvetica", 32))
+#text.pack()
+root.title("Speedrun Timer")
+root.geometry('400x120')
 mainframe = ttk.Frame(root, padding="3 3 12 12")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
+
+# TO-DO: style
+style = ttk.Style(root)
+style.configure('TLabel', font=('Helvetica', 32))
+style.configure('TButton', font=('Helvetica', 12))
 
 # labels & buttons
 timeLabel = StringVar()
@@ -146,16 +154,16 @@ buttonText = StringVar()
 button2Text = StringVar()
 buttonText.set("Start Timer")
 button2Text.set("Stop Timer")
-ttk.Label(mainframe, textvariable=timeLabel).grid(column=1, row=1, sticky=(W, E))
-ttk.Button(mainframe, textvariable=buttonText, command=toggleTimer).grid(column=1, row=2, sticky=W)
-ttk.Button(mainframe, textvariable=button2Text, command=stopTimer).grid(column=1, row=3, sticky=W)
+ttk.Label(mainframe, textvariable=timeLabel).grid(column=2, row=1, sticky=(W, E))
+ttk.Button(mainframe, textvariable=buttonText, command=toggleTimer).grid(column=2, row=2, sticky=W)
+ttk.Button(mainframe, textvariable=button2Text, command=stopTimer).grid(column=2, row=3, sticky=W)
 
 # constantly keep track of timer label
 updateTimerLabel()
 
 # init pygame for keyboard input?
 pygame.init()
-screen = pygame.display.set_mode((200,100))
+#screen = pygame.display.set_mode((200,100))
 
 # hypothetically: another thread to run keyboard input
 with keyboard.Listener(on_press=on_press) as listener:
