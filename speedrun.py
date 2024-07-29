@@ -134,6 +134,12 @@ def resetTimer():
 	timerEnd = 0
 	return
 
+def resetPB():
+	global PB, PBTime
+	PBTime = 0
+	PB = ''
+	return
+
 ###################
 # execute
 ###################
@@ -151,21 +157,26 @@ root.rowconfigure(0, weight=1)
 
 # TO-DO: style
 style = ttk.Style(root)
-style.configure('TLabel', font=('Terminal', 24))
+style.configure('TLabel', font=('Terminal', 18))
 style.configure('TButton', font=('Terminal', 12))
+#style.configure(background='yellow')
 
 # labels & buttons
 timeLabel = StringVar()
 PBLabel = StringVar()
 buttonText = StringVar()
 button2Text = StringVar()
-buttonText.set("Start Timer")
-button2Text.set("Stop Timer")
-ttk.Label(mainframe, textvariable=timeLabel).grid(column=2, row=1, sticky=(W))
+button3Text = StringVar()
+buttonText.set("Start")
+button2Text.set("Stop")
+button3Text.set("Reset PB")
+
+ttk.Label(mainframe, textvariable=timeLabel).grid(column=1, row=1, sticky=W)
 #style.configure('TLabel',font=('Terminal', 12))
-ttk.Label(mainframe, textvariable=PBLabel).grid(column=2, row=4, sticky=(W))
-ttk.Button(mainframe, textvariable=buttonText, command=toggleTimer).grid(column=2, row=2, sticky=W)
-ttk.Button(mainframe, textvariable=button2Text, command=stopTimer).grid(column=2, row=3, sticky=W)
+ttk.Label(mainframe, textvariable=PBLabel).grid(column=1, row=2, sticky=W)
+ttk.Button(mainframe, textvariable=buttonText, command=toggleTimer).grid(column=1, row=3, sticky=W)
+ttk.Button(mainframe, textvariable=button2Text, command=stopTimer).grid(column=1, row=4, sticky=W)
+ttk.Button(mainframe, textvariable=button3Text, command=resetPB).grid(column=1, row=5, sticky=W)
 
 # constantly keep track of timer label
 updateTimerLabel()
