@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-
 import math
 import time
 from threading import Event as ThreadEvent  # avoid name conflict with tkinter.Event
 from threading import Thread
 from tkinter import *
 from tkinter import ttk
-
 from pynput import keyboard
 
 # make global variables
@@ -29,7 +27,6 @@ UIClosed = ThreadEvent()
 def getTimeInMilliseconds() -> int:
     return round(time.time() * 1000)
 
-
 # convertColons
 # takes in a str
 # converts time to be nicely formatted
@@ -37,16 +34,13 @@ def getTimeInMilliseconds() -> int:
 # example output: 0h:3m:30s:120ms
 def convertColons(theTime: str) -> str:
     timeInt = int(theTime)
-
     if timeInt > 999:
         milliseconds = int(theTime[-3:])
     else:
         milliseconds = timeInt
-
     seconds = (timeInt / 1000) % 60
     minutes = (timeInt / (1000 * 60)) % 60
     hours = (timeInt / (1000 * 60 * 60)) % 60
-
     return (
         str(math.floor(hours))
         + "h:"
@@ -58,13 +52,11 @@ def convertColons(theTime: str) -> str:
         + "ms"
     )
 
-
 # toggleTimer
 #
 # starts timer
 def toggleTimer() -> None:
     global timerRunning, timerStart, timerEnd, timeDisplay
-
     if timerRunning == 0:
         # buttonText.set("Stop Timer")
         timerRunning = 1
@@ -78,18 +70,14 @@ def toggleTimer() -> None:
         # timeDisplay = str(timerEnd)
         return
 
-
 # stopTimer
 #
 # stops timer and resets timerStart
 def stopTimer() -> None:
     global timerRunning, timerStart, timerEnd, timeDisplay, PB, PBTime
-
     timerRunning = 0
-
     if timerStart == 0:
         return
-
     timerEnd = getTimeInMilliseconds() - timerStart
     timerStart = 0
     timeDisplay = convertColons(str(timerEnd))
@@ -97,9 +85,7 @@ def stopTimer() -> None:
     if PBTime == 0 or PBTime > timerEnd:
         PBTime = timerEnd
         PB = timeDisplay
-
     return
-
 
 # updateTimerLabel
 #
@@ -117,9 +103,7 @@ def updateTimerLabel() -> None:
     timeLabel.set(timeDisplay)
     PBLabel.set("PB: " + PB)
     root.after(10, updateTimerLabel)
-
     return
-
 
 # createKeyboardListener
 #
@@ -131,7 +115,6 @@ def createKeyboardListener() -> None:
         UIClosed.wait()  # wait for UI to close
         listener.stop()  # stop listener
 
-
 # onKeyPress
 #
 # handle key that is being pressed
@@ -141,11 +124,12 @@ def onKeyPress(key: keyboard.Key | keyboard.KeyCode) -> None:
             toggleTimer()
         elif key.char == "x":
             stopTimer()
+        elif key.char == "c":
+            resetPB()
     except AttributeError:
         # Special keys, we don't care about them
         # Example: CTRL, ALT, ESC, etc.
         pass
-
 
 # resetTimer
 #
@@ -157,13 +141,11 @@ def resetTimer() -> None:
     timerEnd = 0
     return
 
-
 def resetPB():
     global PB, PBTime
     PBTime = 0
     PB = ""
     return
-
 
 ###################
 # execute
@@ -211,7 +193,6 @@ ttk.Button(mainframe, textvariable=button3Text, command=resetPB).grid(
 
 # constantly keep track of timer label
 updateTimerLabel()
-
 
 # keyboard thread
 keyboard_thread = Thread(target=createKeyboardListener)
