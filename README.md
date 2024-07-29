@@ -3,7 +3,7 @@
 
 ![speedrunTimer](https://insect.christmas/images/github/speedrunTimer.png)
 
-**features:**
+# **features:**
 - start/stop timer
 - tracks hours/minutes/seconds/milliseconds
 - keeps track of a personal best (session only)
